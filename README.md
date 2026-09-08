@@ -153,7 +153,7 @@ RestClient client = RestClient.create();
 tracing-demo/
 ├── pom.xml                    ← Multi-module root, dependencias comunes
 ├── bff/                       ← Puerto 8080
-│   └── src/main/java/com/demo/bff/
+│   └── src/main/java/com/demo/sandbox/bff/
 │       ├── config/
 │       │   ├── RestClientConfig.java    ← Clientes con Builder instrumentado
 │       │   └── HttpExchangeConfig.java  ← Proxies @HttpExchange
@@ -165,11 +165,11 @@ tracing-demo/
 │       └── model/
 │           └── DashboardResponse.java
 ├── customer-api/              ← Puerto 8081
-│   └── src/main/java/com/demo/customer/
+│   └── src/main/java/com/demo/sandbox/customer/
 │       ├── controller/CustomerController.java
 │       └── model/Customer.java
 ├── product-api/               ← Puerto 8082
-│   └── src/main/java/com/demo/product/
+│   └── src/main/java/com/demo/sandbox/product/
 │       ├── controller/ProductController.java
 │       └── model/Product.java
 └── docker/
