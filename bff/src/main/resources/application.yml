@@ -1,0 +1,79 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: bff  # Identificador del servicio en Jaeger/Tempo/Grafana
+    
+  # WARNING: Enabling this property breaks Spring Boot Dashboard Live Data.
+  # SNAKE_CASE breaks Spring Boot Dashboard Live Data because Actuator
+  # metric fields are serialized as snake_case (e.g. available_tags),
+  # while Spring Tools expects camelCase (e.g. availableTags).
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  messages:
+    basename:
+    encoding: UTF-8
+  threads:
+    virtual:
+      enabled: true
+  task:
+    execution:
+      propagate-context: true
+      
+  # Verify that the context is propagated to the reactive threads for tracing (e.g., WebClient, R2DBC, etc.)
+  # By default in webflux, this is set to limited. This isn't needed if you are using WebClient.Builder
+  # reactor:
+  #   context-propagation: auto
+
+logbook:
+  predicate:
+    exclude:
+      - path: /actuator/**
+  # strategy: body-only-if-status-at-least
+  # minimum-status: 400
+  format:
+    style: curl
+
+
+# URLs de los microservicios downstream
+rest-client:
+  configs:
+    customer-api:
+      base-url: http://localhost:8081
+      connect-timeout: 5000
+      read-timeout: 10000
+    product-api:
+      base-url: http://localhost:8082
+      connect-timeout: 5000
+      read-timeout: 10000
+
+management:
+  # tracing:
+  #   sampling:
+  #     probability: 1.0   # 100% en desarrollo. En producción: 0.1 (10%)
+
+  # opentelemetry:
+  #   tracing:
+  #     export:
+  #       otlp:
+  #         # OTel Collector (o Jaeger con receptor OTLP activado)
+  #         # Si no hay collector corriendo, los spans se descartan sin error.
+  #         endpoint: http://localhost:4317
+  tracing:
+    propagation:
+      consume: w3c # Only accept W3C Trace Context headers
+      produce: b3-multi, w3c  # Can produce B3 multi-header & W3C Trace Context
+  otlp:
+    metrics:
+      export:
+        enabled: false  # Desactivamos exportación de métricas para simplificar la demo
+
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    '[org.zalando.logbook.Logbook]': TRACE  # https://www.baeldung.com/spring-logbook-http-logging

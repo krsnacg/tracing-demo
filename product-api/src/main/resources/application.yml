@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: product-api
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8082
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  # opentelemetry:
+  #   tracing:
+  #     export:
+  #       otlp:
+  #         endpoint: http://localhost:4317
+
+  otlp:
+    metrics:
+      export:
+        enabled: false 
+  endpoints:
+    web:
+      exposure:
+        include: health, info

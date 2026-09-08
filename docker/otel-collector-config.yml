@@ -1,0 +1,37 @@
+# Configuración del OpenTelemetry Collector
+#
+# El collector actúa como intermediario:
+#   RECIBE spans de las apps Spring Boot via OTLP
+#   PROCESA (batch, retry, etc.)
+#   EXPORTA a Jaeger
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317   # Las apps Spring Boot apuntan aquí
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    # Agrupa spans antes de exportar — reduce overhead de red
+    timeout: 1s
+    send_batch_size: 512
+
+exporters:
+  otlp/jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true   # Solo para desarrollo local
+
+  # Opcional: loguear spans en consola del collector para debugging
+  debug:
+    verbosity: basic
+
+service:
+  pipelines:
+    traces:
+      receivers:  [otlp]
+      processors: [batch]
+      exporters:  [otlp/jaeger, debug]
