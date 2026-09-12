@@ -176,3 +176,60 @@ tracing-demo/
     ├── docker-compose.yml          ← Jaeger + OTel Collector
     └── otel-collector-config.yml
 ```
+
+## Comandos utiles de Maven
+
+Ejecutar desde la raiz del proyecto:
+
+```bash
+# Compilar, ejecutar tests y empaquetar todos los modulos
+mvn clean package
+
+# Ejecutar el ciclo completo hasta la fase verify
+mvn verify
+
+# Ejecutar tests y generar los informes de JaCoCo, si el plugin esta activo
+mvn clean test
+
+# Ver el arbol completo de dependencias efectivas
+mvn dependency:tree
+
+# Revisar solo las dependencias de Tomcat embebido
+mvn dependency:tree -Dincludes=org.apache.tomcat.embed
+
+# Ejecutar OWASP Dependency-Check explicitamente
+mvn org.owasp:dependency-check-maven:13.0.0:check
+```
+
+El informe HTML de OWASP se genera en `target/dependency-check-report.html`.
+Si el plugin esta configurado para ejecutarse en la fase `verify`, basta con
+usar `mvn verify`. Para evitar limites de la API de NVD, se puede definir la
+clave antes de ejecutar Maven:
+
+```bash
+export NVD_API_KEY="tu-clave"
+mvn verify
+```
+
+Para inspeccionar las versiones gestionadas por el POM padre de Spring Boot:
+
+```bash
+# Generar el POM efectivo, incluyendo dependencyManagement y pluginManagement
+mvn help:effective-pom -Doutput=effective-pom.xml
+
+# Consultar una propiedad concreta del POM
+mvn help:evaluate -Dexpression=tomcat.version -q -DforceStdout
+
+# Buscar propiedades de versiones y referencias a propiedades Maven
+grep -nE 'tomcat.version|jackson.version|netty.version|<version>\$\{' effective-pom.xml
+```
+
+`dependencyManagement` y `pluginManagement` solo proporcionan configuracion
+por defecto. Las dependencias se activan en `<dependencies>` y los plugins en
+`<plugins>`. Por ejemplo, un plugin OWASP definido solo en
+`<pluginManagement>` no se ejecuta automaticamente con `mvn package`.
+
+Spring Boot expone propiedades como `tomcat.version` porque su BOM las usa
+para mantener alineados varios artefactos de Tomcat. Una propiedad con nombre
+personalizado solo tiene efecto si algun POM la referencia explicitamente; el
+nombre por si solo no agrupa dependencias.
