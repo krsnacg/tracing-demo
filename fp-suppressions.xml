@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.4.xsd"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.4.xsd
+                                  https://dependency-check.github.io/DependencyCheck/dependency-suppression.1.4.xsd">
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-53914 affects Kotlin build tooling and
+            unsafe deserialization of build cache metadata. This project only
+            uses kotlin-stdlib as a transitive runtime library and does not
+            use the Kotlin compiler or Kotlin build plugins.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-stdlib@.*$</packageUrl>
+        <cve>CVE-2026-53914</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-54285 affects the OpenTelemetry JavaScript
+            client. The artifacts of the OpenTelemetry Java implementation belong to a different
+            codebase not affected by the vulnerability.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry/opentelemetry-.*@.*$</packageUrl>
+        <cve>CVE-2026-54285</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-39882 affects the OpenTelemetry Go client.
+            This project uses the OpenTelemetry Java implementation artifact.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry\.proto/opentelemetry-proto@.*$</packageUrl>
+        <cve>CVE-2026-39882</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-40894 affects the OpenTelemetry .NET
+            client. This project uses the OpenTelemetry Java implementation artifact.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry\.proto/opentelemetry-proto@.*$</packageUrl>
+        <cve>CVE-2026-40894</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-41178 affects the OpenTelemetry Go client.
+            This project uses the OpenTelemetry Java implementation artifact.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry\.proto/opentelemetry-proto@.*$</packageUrl>
+        <cve>CVE-2026-41178</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-44967 affects the OpenTelemetry C++
+            client. This project uses the OpenTelemetry Java implementation artifact.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry\.proto/opentelemetry-proto@.*$</packageUrl>
+        <cve>CVE-2026-44967</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2026-54285 affects the OpenTelemetry JavaScript
+            client. This project uses the OpenTelemetry Java implementation artifact.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.opentelemetry\.proto/opentelemetry-proto@.*$</packageUrl>
+        <cve>CVE-2026-54285</cve>
+    </suppress>
+</suppressions>

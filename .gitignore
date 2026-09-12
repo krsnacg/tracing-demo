@@ -6,6 +6,8 @@ target/
 .cve-remediation/
 
 tree.json
+effective-pom.xml
+.env
 
 ### STS ###
 .apt_generated

@@ -30,7 +30,36 @@
         <logbook.version>4.1.0</logbook.version>
         <httpclient5.version>5.6.4</httpclient5.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <tomcat.version>11.0.25</tomcat.version>
+        <jackson-bom.version>3.2.2</jackson-bom.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.zalando</groupId>
+                <artifactId>logbook-spring-boot-starter</artifactId>
+                <version>${logbook.version}</version>
+            </dependency>
+            <!-- <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${httpclient5.version}</version>
+            </dependency> -->
+            <!-- Source: https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
+            <!-- <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency> -->
+            <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
+            <!-- <dependency>
+                <groupId>tools.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind}</version>
+            </dependency> -->
+        </dependencies>
+    </dependencyManagement>
 
     <!--
         Dependencias comunes heredadas por todos los módulos.
@@ -60,24 +89,23 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- Source: https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>${httpclient5.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- Source: https://mvnrepository.com/artifact/org.zalando/logbook-spring-boot-starter -->
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>${logbook.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     
@@ -120,7 +148,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.11</version>
+                    <version>0.8.15</version>
                     <executions>
                         <execution>
                             <goals>
@@ -139,15 +167,22 @@
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>10.0.4</version> <!-- Use the latest stable version -->
+                    <version>13.0.0</version> <!-- Use the latest stable version -->
                     <configuration>
-                        <!-- Fail the build if a vulnerability with a CVSS score >= 7.0 (High) is found -->
-                        <failBuildOnCVSS>7.0</failBuildOnCVSS>
+                        <!-- Fail the build if a vulnerability with a CVSS score >= 5.0 (High) is found -->
+                        <failBuildOnCVSS>5.0</failBuildOnCVSS>
                         <!-- Specify an NVD API Key to avoid rate-limiting issues -->
                         <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey> 
+                        <suppressionFiles>
+                            <suppressionFile>
+                                ${maven.multiModuleProjectDirectory}/fp-suppressions.xml
+                            </suppressionFile>
+                        </suppressionFiles>
                     </configuration>
                     <executions>
                         <execution>
+                            <id>dependency-check</id>
+                            <phase>verify</phase>
                             <goals>
                                 <goal>check</goal>
                             </goals>
@@ -156,5 +191,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>                
+            </plugin>
+        </plugins>
     </build>
 </project>
