@@ -31,7 +31,8 @@
         <httpclient5.version>5.6.4</httpclient5.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <tomcat.version>11.0.25</tomcat.version>
-        <jackson-bom.version>3.2.2</jackson-bom.version>
+        <jackson-bom.version>3.1.6</jackson-bom.version>
+        <redisson.version>4.7.0</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -40,6 +41,21 @@
                 <groupId>org.zalando</groupId>
                 <artifactId>logbook-spring-boot-starter</artifactId>
                 <version>${logbook.version}</version>
+            </dependency>
+            <!-- <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency> -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-41</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
             <!-- <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
@@ -101,6 +117,24 @@
             <artifactId>logbook-spring-boot-starter</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/org.redisson/redisson-spring-boot-starter -->
+        <!-- <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <scope>compile</scope>
+        </dependency> -->
+        <!-- Source: https://mvnrepository.com/artifact/org.redisson/redisson-spring-data-41 -->
+        <!-- <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-data-41</artifactId>
+            <scope>compile</scope>
+        </dependency> -->
+        <!-- Source: https://mvnrepository.com/artifact/org.redisson/redisson -->
+        <!-- <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <scope>compile</scope>
+        </dependency> -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -170,7 +204,7 @@
                     <version>13.0.0</version> <!-- Use the latest stable version -->
                     <configuration>
                         <!-- Fail the build if a vulnerability with a CVSS score >= 5.0 (High) is found -->
-                        <failBuildOnCVSS>5.0</failBuildOnCVSS>
+                        <failBuildOnCVSS>4.0</failBuildOnCVSS>
                         <!-- Specify an NVD API Key to avoid rate-limiting issues -->
                         <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey> 
                         <suppressionFiles>
