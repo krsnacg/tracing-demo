@@ -1,11 +1,14 @@
 package com.demo.sandbox.bff.config;
 
+import java.time.Duration;
 import java.util.EnumMap;
 import java.util.Map;
 
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
+import org.springframework.boot.http.client.HttpClientSettings;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.client.RestClient;
 import org.zalando.logbook.Logbook;
@@ -75,17 +78,27 @@ public class RestClientConfigFactory {
         Map<RestClientName, RestClient.Builder> clientBuilders = new EnumMap<>(RestClientName.class);
 
         restClientConfigProperties.configs().forEach((clientName, config) -> {
-            var factory = new HttpComponentsClientHttpRequestFactory();
-            factory.setConnectionRequestTimeout(config.connectTimeout());
-            factory.setReadTimeout(config.readTimeout());
+            HttpClientSettings settings = HttpClientSettings.defaults()
+                .withConnectTimeout(Duration.ofMillis(config.connectTimeout()))
+                .withReadTimeout(Duration.ofMillis(config.readTimeout()));
+
+            ClientHttpRequestFactory factory = ClientHttpRequestFactoryBuilder.httpComponents()
+                .withConnectionManagerCustomizer(customizer -> 
+                    customizer
+                            // 5 downstreams
+                        .setMaxConnTotal(500)
+                            // 100 connections per downstream
+                        .setMaxConnPerRoute(100))
+                .build(settings);
+            
             RestClient.Builder clientBuilder = builder.clone()
                     .requestFactory(factory)
                     .baseUrl(config.baseUrl())
                     .requestInterceptor(new LogbookClientHttpRequestInterceptor(logbook))
                     .configureMessageConverters(converters ->
                         converters.addCustomConverter(
-                            new JacksonJsonHttpMessageConverter(jsonMapper))
-                    );
+                            new JacksonJsonHttpMessageConverter(jsonMapper)));
+            
             clientBuilders.put(clientName, clientBuilder);
         });
 
