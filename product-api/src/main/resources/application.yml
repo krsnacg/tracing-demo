@@ -11,20 +11,29 @@ server:
   port: 8082
 
 management:
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTLP_TRACING_EXPORT_URL}
+    logging:
+      export:
+        otlp:
+          endpoint: ${OTLP_LOGGING_EXPORT_URL}
+
   tracing:
+    propagation:
+      produce: b3-multi, w3c  # Can produce B3 multi-header & W3C Trace Context
     sampling:
       probability: 1.0
-
-  # opentelemetry:
-  #   tracing:
-  #     export:
-  #       otlp:
-  #         endpoint: http://localhost:4317
 
   otlp:
     metrics:
       export:
-        enabled: false 
+        url: ${OTLP_METRICS_EXPORT_URL}
+        step: 10s
+        # enabled: false # Disables metrics export to keep the demo simple
+  
   endpoints:
     web:
       exposure:

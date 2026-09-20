@@ -49,25 +49,32 @@ rest-client:
       read-timeout: 10000
 
 management:
-  # tracing:
-  #   sampling:
-  #     probability: 1.0   # 100% en desarrollo. En producción: 0.1 (10%)
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTLP_TRACING_EXPORT_URL}
+    logging:
+      export:
+        otlp:
+          # https://docs.spring.io/spring-boot/reference/actuator/loggers.html#actuator.loggers.opentelemetry
+          # Currently not working without the following dependency:
+          # io.opentelemtry.instrumentation:opentelemetry-logback-appender
+          endpoint: ${OTLP_LOGGING_EXPORT_URL}
 
-  # opentelemetry:
-  #   tracing:
-  #     export:
-  #       otlp:
-  #         # OTel Collector (o Jaeger con receptor OTLP activado)
-  #         # Si no hay collector corriendo, los spans se descartan sin error.
-  #         endpoint: http://localhost:4317
   tracing:
     propagation:
       consume: w3c # Only accept W3C Trace Context headers
       produce: b3-multi, w3c  # Can produce B3 multi-header & W3C Trace Context
+    sampling:
+      probability: 1.0
+
   otlp:
     metrics:
       export:
-        enabled: false  # Desactivamos exportación de métricas para simplificar la demo
+        url: ${OTLP_METRICS_EXPORT_URL}
+        step: 10s
+        # enabled: false # Disables metrics export to keep the demo simple
 
   endpoints:
     web:
