@@ -8,6 +8,6 @@ package com.demo.sandbox.customer.model;
 public record Customer(
         Long id,
         String name,
-        String email,
+        String userEmail,
         String tier   // STANDARD, PREMIUM, VIP
 ) {}
