@@ -38,11 +38,12 @@ public class CustomerController {
     public ResponseEntity<Customer> getCustomer(
             @PathVariable Long id,
             // Recibimos el header traceparent para mostrarlo en logs (solo didáctico)
-            @RequestHeader(value = "traceparent", required = false) String traceparent) {
+            @RequestHeader(value = "traceparent", required = false) String traceparent,
+            @RequestHeader(value = "X-Request-Context", required = false) String requestContext) {
 
         // Este log mostrará el MISMO traceId que el BFF — la propagación funcionó.
-        log.info("[CUSTOMER-API] Request recibido. customerId={} traceparent={}",
-                id, traceparent);
+        log.info("[CUSTOMER-API] Request recibido. customerId={} traceparent={} requestContext={}",
+                id, traceparent, requestContext);
 
         var customer = CUSTOMERS.get(id);
         if (customer == null) {

@@ -11,8 +11,10 @@ import java.util.List;
 public record DashboardResponse(
         // String requestTraceId,   // traceId del span activo — para visualización didáctica
         CustomerSummary customer,
+        CustomerAdditionalInfo additionalInfo,
         List<ProductSummary> recommendedProducts
 ) {
     public record CustomerSummary(Long id, String name, String userEmail, String tier) {}
+    public record CustomerAdditionalInfo(Integer loyaltyPoints, String accountStatus) {}
     public record ProductSummary(Long id, String name, Double price, String category) {}
 }
