@@ -2,6 +2,8 @@ package com.demo.sandbox.bff.controller;
 
 import com.demo.sandbox.bff.model.DashboardResponse;
 import com.demo.sandbox.bff.service.DashboardService;
+import java.util.Map;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,5 +61,46 @@ public class DashboardController {
 
         // return new DashboardResponse(customer, products);
         return ResponseEntity.ok(dashboardService.getDashboard(customerId));
+    }
+
+    @GetMapping("/customers/{customerId}")
+    public ResponseEntity<DashboardResponse.CustomerSummary> getCustomer(
+            @PathVariable Long customerId) {
+        return ResponseEntity.ok(dashboardService.getCustomer(customerId));
+    }
+
+    @GetMapping("/customers/{customerId}/additional-info")
+    public ResponseEntity<DashboardResponse.CustomerAdditionalInfo> getCustomerAdditionalInfo(
+            @PathVariable Long customerId) {
+        return ResponseEntity.ok(dashboardService.getCustomerAdditionalInfo(customerId));
+    }
+
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<DashboardResponse.ProductSummary> getProduct(
+            @PathVariable Long productId) {
+        return ResponseEntity.ok(dashboardService.getProduct(productId));
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<DashboardResponse.ProductSummary>> getProducts() {
+        return ResponseEntity.ok(dashboardService.getProducts());
+    }
+
+    @GetMapping("/auth/{user}/{password}")
+    public ResponseEntity<Map<String, Object>> checkAuth(
+            @PathVariable String user,
+            @PathVariable String password) {
+        return ResponseEntity.ok(dashboardService.checkAuth(user, password));
+    }
+
+    @GetMapping("/slow/{seconds}")
+    public ResponseEntity<Map<String, Object>> getDelayedResponse(@PathVariable int seconds) {
+        return ResponseEntity.ok(dashboardService.getDelayedResponse(seconds));
+    }
+
+    @GetMapping("/error/{statusCode}")
+    public ResponseEntity<Void> triggerError(@PathVariable int statusCode) {
+        dashboardService.triggerError(statusCode);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -41,9 +41,11 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getProducts(
-            @RequestHeader(value = "traceparent", required = false) String traceparent) {
+            @RequestHeader(value = "traceparent", required = false) String traceparent,
+            @RequestHeader(value = "X-Request-Context", required = false) String requestContext) {
 
-        log.info("[PRODUCT-API] Listando productos. traceparent={}", traceparent);
+        log.info("[PRODUCT-API] Listando productos. traceparent={} requestContext={}",
+                traceparent, requestContext);
 
         var products = List.copyOf(PRODUCTS.values());
         log.info("[PRODUCT-API] Retornando {} productos", products.size());
@@ -53,9 +55,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(
             @PathVariable Long id,
-            @RequestHeader(value = "traceparent", required = false) String traceparent) {
+            @RequestHeader(value = "traceparent", required = false) String traceparent,
+            @RequestHeader(value = "X-Request-Context", required = false) String requestContext) {
 
-        log.info("[PRODUCT-API] Request producto. productId={} traceparent={}", id, traceparent);
+        log.info("[PRODUCT-API] Request producto. productId={} traceparent={} requestContext={}",
+                id, traceparent, requestContext);
 
         var product = PRODUCTS.get(id);
         if (product == null) {

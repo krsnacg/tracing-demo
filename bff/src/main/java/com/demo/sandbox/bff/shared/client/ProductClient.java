@@ -1,4 +1,4 @@
-package com.demo.sandbox.bff.client;
+package com.demo.sandbox.bff.shared.client;
 
 import com.demo.sandbox.bff.model.DashboardResponse.ProductSummary;
 

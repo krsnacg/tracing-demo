@@ -22,6 +22,11 @@ spring:
       propagate-context: true
   
   http:
+    # Spring Boot is already using http-components by default because apache client
+    # is the most preferred client type and is available as a dependency
+    # clients:
+    #   imperative:
+    #     factory: http-components
     serviceclient:
       customer-api:
         base-url: http://localhost:8081
@@ -31,6 +36,18 @@ spring:
         base-url: http://localhost:8082
         connect-timeout: 5000ms
         read-timeout: 10000ms
+      auth-api:
+        base-url: https://httpbin.org
+        connect-timeout: 2000ms
+        read-timeout: 5000ms
+      error-api:
+        base-url: https://httpbin.org
+        connect-timeout: 2000ms
+        read-timeout: 5000ms
+      slow-api:
+        base-url: https://httpbin.org
+        connect-timeout: 2000ms
+        read-timeout: 2000ms
       
   # Verify that the context is propagated to the reactive threads for tracing (e.g., WebClient, R2DBC, etc.)
   # By default in webflux, this is set to limited. This isn't needed if you are using WebClient.Builder
