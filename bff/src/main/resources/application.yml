@@ -20,6 +20,17 @@ spring:
   task:
     execution:
       propagate-context: true
+  
+  http:
+    serviceclient:
+      customer-api:
+        base-url: http://localhost:8081
+        connect-timeout: 5000ms
+        read-timeout: 10000ms
+      product-api:
+        base-url: http://localhost:8082
+        connect-timeout: 5000ms
+        read-timeout: 10000ms
       
   # Verify that the context is propagated to the reactive threads for tracing (e.g., WebClient, R2DBC, etc.)
   # By default in webflux, this is set to limited. This isn't needed if you are using WebClient.Builder
@@ -34,19 +45,6 @@ logbook:
   # minimum-status: 400
   format:
     style: curl
-
-
-# URLs de los microservicios downstream
-rest-client:
-  configs:
-    customer-api:
-      base-url: http://localhost:8081
-      connect-timeout: 5000
-      read-timeout: 10000
-    product-api:
-      base-url: http://localhost:8082
-      connect-timeout: 5000
-      read-timeout: 10000
 
 management:
   opentelemetry:

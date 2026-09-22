@@ -13,6 +13,6 @@ public record DashboardResponse(
         CustomerSummary customer,
         List<ProductSummary> recommendedProducts
 ) {
-    public record CustomerSummary(Long id, String name, String email, String tier) {}
+    public record CustomerSummary(Long id, String name, String userEmail, String tier) {}
     public record ProductSummary(Long id, String name, Double price, String category) {}
 }
