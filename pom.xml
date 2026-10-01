@@ -27,11 +27,11 @@
 
     <properties>
         <java.version>25</java.version>
-        <logbook.version>4.1.0</logbook.version>
+        <logbook.version>4.2.0</logbook.version>
         <httpclient5.version>5.6.4</httpclient5.version>
         
         <tomcat.version>11.0.25</tomcat.version>
-        <jackson-bom.version>3.1.6</jackson-bom.version>
+        <jackson-bom.version>3.1.7</jackson-bom.version>
         <redisson.version>4.7.0</redisson.version>
 
         <!-- Code generators -->
