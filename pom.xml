@@ -21,18 +21,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
         <relativePath/>
     </parent>
 
     <properties>
         <java.version>25</java.version>
         <logbook.version>4.2.0</logbook.version>
-        <httpclient5.version>5.6.4</httpclient5.version>
+        <!-- <httpclient5.version>5.6.4</httpclient5.version> -->
         
-        <tomcat.version>11.0.25</tomcat.version>
-        <jackson-bom.version>3.1.7</jackson-bom.version>
-        <redisson.version>4.7.0</redisson.version>
+        <!-- <tomcat.version>11.0.25</tomcat.version> -->
+        <!-- <jackson-bom.version>3.1.7</jackson-bom.version> -->
+        <redisson.version>4.8.0</redisson.version>
 
         <!-- Code generators -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
